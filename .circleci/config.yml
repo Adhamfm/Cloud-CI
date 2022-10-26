@@ -1,6 +1,6 @@
 version: 2.1
 environment:
-  name: Adham
+  name: "Adham"
 jobs:
   print_hello:
     docker:
@@ -14,7 +14,7 @@ jobs:
         - image: circleci/node:13.8.0
     steps:
       - run:
-          command: "echo world $name"
+          command: "echo world ${name}"
 
 workflows:
   say-hello-workflow:
