@@ -23,9 +23,9 @@ jobs:
   print_world:
     docker:
         - image: circle/node:13.8.0
-      steps:
-        - run:
-          command: "echo world"
+    steps:
+      - run:
+        command: "echo world"
 
 # Invoke jobs via workflows
 workflows:
