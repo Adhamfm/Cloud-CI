@@ -16,13 +16,13 @@ jobs:
 
   print_hello:
     docker:
-      - image: circle/node:13.8.0
+      - image: circleci/node:13.8.0
     steps:
       - run:
           command: "echo Hello"
   print_world:
     docker:
-        - image: circle/node:13.8.0
+        - image: circleci/node:13.8.0
     steps:
       - run:
           command: "echo world"
