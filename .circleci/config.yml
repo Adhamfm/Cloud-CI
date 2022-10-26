@@ -1,6 +1,5 @@
 version: 2.1
-environment:
-  name: "Adham"
+
 jobs:
   print_hello:
     docker:
@@ -10,6 +9,8 @@ jobs:
           command: "echo Hello"
 
   print_world:
+  environment:
+    name: "Adham"
     docker:
         - image: circleci/node:13.8.0
     steps:
