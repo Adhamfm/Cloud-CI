@@ -19,13 +19,13 @@ jobs:
       - image: circle/node:13.8.0
     steps:
       - run:
-        command: "echo Hello"
+          command: "echo Hello"
   print_world:
     docker:
         - image: circle/node:13.8.0
     steps:
       - run:
-        command: "echo world"
+          command: "echo world"
 
 # Invoke jobs via workflows
 workflows:
