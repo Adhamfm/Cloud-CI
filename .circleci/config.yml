@@ -1,38 +1,33 @@
 version: 2.1
 
+commands:
+  sayhello:
+    description: "A simple test command"
+    parameters:
+      hi:
+        type: string
+        default: "hello world"
+    steps:
+      - run: echo << parameters.hi >>
+  
+  print_pipeline_id:
+    description: "Prints ci workflow id"
+    parameters: 
+      pipe:
+        type: string
+        default: $CIRCLE_WORKFLOW_ID
+      steps:
+        - run: echo << parameters.pipe >>
+
 jobs:
-
-  # print_hello:
-  #   docker:
-  #     - image: circleci/node:13.8.0
-  #   steps:
-  #     - run:
-  #         command: "echo Hello"
-
-  # print_world:
-  #   environment:
-  #     name: "Adham"
-  #   docker:
-  #       - image: circleci/node:13.8.0
-  #   steps:
-  #     - run:
-  #         command: | 
-  #           echo world $name
-  #           echo hi $MY_NAME
-  # build:
-  #   docker:
-  #     - image: cimg/base:2020.01
-  #   steps:
-  #     - checkout
-  #     - run:
-  #         name: "echo an env var that is part of our project"
-  #         command: |
-  #           echo $MY_ENV_VAR
-  #     - persist_to_workspace:
-  #         root: /tmp/dir
-  #         paths:
-  #           - test
-
+  test_commands:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - run:
+          command: |
+            sayhello
+            print_pipeline_id
   save_hello_world_output:
     docker:
       - image: circleci/node:13.8.0
@@ -59,16 +54,8 @@ jobs:
 workflows:
   sharing-files:
     jobs:
+      - test_commands
       - save_hello_world_output
       - print_output_file:
           requires:
             - save_hello_world_output
-  # say-hello-workflow:
-  #   jobs:
-  #     - print_hello
-  #     - print_world:
-  #         requires:
-  #           - print_hello
-  # test-env-vars:
-  #   jobs:
-  #     - build

@@ -1,0 +1,40 @@
+version: 2.1
+# Simple hello world file can be used for reference
+jobs:
+  print_hello:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - run:
+          command: "echo Hello"
+
+  print_world:
+    environment:
+      name: "Adham"
+    docker:
+        - image: circleci/node:13.8.0
+    steps:
+      - run:
+          command: | 
+            echo world $name
+            echo hi $MY_NAME
+  build:
+    docker:
+      - image: cimg/base:2020.01
+    steps:
+      - checkout
+      - run:
+          name: "echo an env var that is part of our project"
+          command: |
+            echo $MY_ENV_VAR
+
+workflows:
+  say-hello-workflow:
+    jobs:
+      - print_hello
+      - print_world:
+          requires:
+            - print_hello
+  test-env-vars:
+    jobs:
+      - build
