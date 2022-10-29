@@ -40,6 +40,10 @@ jobs:
       - run:
           command: |
             echo If it obeys laws, then it is science > output.txt
+      - persist_to_workspace:
+          root: /tmp/dir
+          paths:
+            - test
 
   print_output_file:
     docker:
