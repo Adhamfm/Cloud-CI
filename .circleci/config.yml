@@ -4,59 +4,19 @@ default_docker: &default_docker
   docker:
       - image: circleci/node:13.8.0
 
-commands:
-  sayhello:
-    description: "A simple test command"
-    parameters:
-      hi:
-        type: string
-        default: "hello world"
-    steps:
-      - run: echo << parameters.hi >>
-  
-  print_pipeline_id:
-    description: "Prints ci workflow id"
-    parameters: 
-      pipe:
-        type: string
-        default: $CIRCLE_WORKFLOW_ID
-    steps:
-      - run: echo << parameters.pipe >>
-
 jobs:
-  test_commands:
-    <<: *default_docker
-    steps:
-      - sayhello:
-          hi: "hi adham"
-      - print_pipeline_id
-
   save_hello_world_output:
     <<: *default_docker
     steps:
       - run:
           command: |
-            echo If it obeys laws, then it is science > ~/output.txt
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - output.txt
-
-  print_output_file:
-    <<: *default_docker
-    steps:
-      - attach_workspace:
-          at: ~/
+            return 1
       - run:
-          command: |
-            pwd
-            cat ~/output.txt
+          command: echo we failed my bois
+          when: on_fail
+
 
 workflows:
   sharing-files:
     jobs:
-      - test_commands
       - save_hello_world_output
-      - print_output_file:
-          requires:
-            - save_hello_world_output
