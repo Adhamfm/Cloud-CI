@@ -39,18 +39,18 @@ jobs:
     steps:
       - run:
           command: |
-            echo If it obeys laws, then it is science > output.txt
+            echo If it obeys laws, then it is science > ~/output.txt
       - persist_to_workspace:
-          root: /tmp
+          root: ~/
           paths:
-            - test
+            - output.txt
 
   print_output_file:
     docker:
       - image: circleci/node:13.8.0
     steps:
       - attach_workspace:
-          at: /tmp/test
+          at: ~/
       - run:
           command: |
             cat output.txt
