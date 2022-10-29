@@ -16,8 +16,8 @@ commands:
       pipe:
         type: env_var_name
         default: $CIRCLE_WORKFLOW_ID
-      steps:
-        - run: echo << parameters.pipe >>
+    steps:
+      - run: echo << parameters.pipe >>
 
 jobs:
   test_commands:
