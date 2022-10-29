@@ -1,0 +1,39 @@
+# DRY = Don't repeat yourself
+# Use this for reference
+version: 2.1
+
+default_docker: &default_docker   # anchor
+  docker:
+      - image: circleci/node:13.8.0
+
+commands:
+  sayhello:     # Commands
+    description: "A simple test command"
+    parameters:
+      hi:
+        type: string
+        default: "hello world"
+    steps:
+      - run: echo << parameters.hi >>
+  
+  print_pipeline_id:
+    description: "Prints ci workflow id"
+    parameters: 
+      pipe:
+        type: string
+        default: $CIRCLE_WORKFLOW_ID
+    steps:
+      - run: echo << parameters.pipe >>
+
+jobs:
+  test_commands:
+    <<: *default_docker     # aliase
+    steps:
+      - sayhello:           # using commands
+          hi: "hi adham"
+      - print_pipeline_id
+
+workflows:
+  sharing-files:
+    jobs:
+      - test_commands
