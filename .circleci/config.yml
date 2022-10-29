@@ -46,7 +46,7 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - attaach_workspace:
-        at: /tmp/dir/test
+          at: /tmp/dir/test
       - run:
           command: |
             cat output.txt
