@@ -1,4 +1,7 @@
 version: 2.1
+default_docker: &default_docker
+  docker:
+      - image: circleci/node:13.8.0
 
 commands:
   sayhello:
@@ -21,16 +24,14 @@ commands:
 
 jobs:
   test_commands:
-    docker:
-      - image: circleci/node:13.8.0
+    <<: *default_docker
     steps:
       - sayhello:
           hi: "hi adham"
       - print_pipeline_id
 
   save_hello_world_output:
-    docker:
-      - image: circleci/node:13.8.0
+    <<: *default_docker
     steps:
       - run:
           command: |
@@ -41,8 +42,7 @@ jobs:
             - output.txt
 
   print_output_file:
-    docker:
-      - image: circleci/node:13.8.0
+    <<: *default_docker
     steps:
       - attach_workspace:
           at: ~/
