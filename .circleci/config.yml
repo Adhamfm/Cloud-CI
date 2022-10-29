@@ -41,7 +41,7 @@ jobs:
           command: |
             echo If it obeys laws, then it is science > output.txt
       - persist_to_workspace:
-          root: /tmp/dir
+          root: /tmp
           paths:
             - test
 
@@ -50,7 +50,7 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - attach_workspace:
-          at: /tmp/dir/test
+          at: /tmp/test
       - run:
           command: |
             cat output.txt
