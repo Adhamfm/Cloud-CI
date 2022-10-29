@@ -1,40 +1,69 @@
 version: 2.1
 
 jobs:
-  print_hello:
+
+  # print_hello:
+  #   docker:
+  #     - image: circleci/node:13.8.0
+  #   steps:
+  #     - run:
+  #         command: "echo Hello"
+
+  # print_world:
+  #   environment:
+  #     name: "Adham"
+  #   docker:
+  #       - image: circleci/node:13.8.0
+  #   steps:
+  #     - run:
+  #         command: | 
+  #           echo world $name
+  #           echo hi $MY_NAME
+  # build:
+  #   docker:
+  #     - image: cimg/base:2020.01
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: "echo an env var that is part of our project"
+  #         command: |
+  #           echo $MY_ENV_VAR
+  #     - persist_to_workspace:
+  #         root: /tmp/dir
+  #         paths:
+  #           - test
+
+  save_hello_world_output:
     docker:
       - image: circleci/node:13.8.0
     steps:
       - run:
-          command: "echo Hello"
-
-  print_world:
-    environment:
-      name: "Adham"
-    docker:
-        - image: circleci/node:13.8.0
-    steps:
-      - run:
-          command: | 
-            echo world $name
-            echo hi $MY_NAME
-  build:
-    docker:
-      - image: cimg/base:2020.01
-    steps:
-      - checkout
-      - run:
-          name: "echo an env var that is part of our project"
           command: |
-            echo $MY_ENV_VAR
+            echo If it obeys laws, then it is science > output.txt
+
+  print_output_file:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - attaach_workspace:
+        at: /tmp/dir/test
+      - run:
+          command: |
+            cat output.txt
 
 workflows:
-  say-hello-workflow:
+  sharing-files:
     jobs:
-      - print_hello
-      - print_world:
-          requires:
-            - print_hello
-  test-env-vars:
-    jobs:
-      - build
+      - save_hello_world_output
+      - print_output_file:
+        requires:
+          - save_hello_world_output
+  # say-hello-workflow:
+  #   jobs:
+  #     - print_hello
+  #     - print_world:
+  #         requires:
+  #           - print_hello
+  # test-env-vars:
+  #   jobs:
+  #     - build
